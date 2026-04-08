@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Korangiiiiiiii!</title>
+    <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/2764.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="heart-bg" id="heart-container"></div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="hero">
+        <h1>Happy Birthday, My Shuttumaniiiiiii muahhhhh thakkuduuzeaaaa!</h1>
+        <p class="hint">Make a wish and click the flame...</p>
+    </div>
+
+    <div class="cake-container" onclick="blowCandle()">
+        <div class="cake">
+            <div class="frosting-top">
+                <div class="drip drip-1"></div>
+                <div class="drip drip-2"></div>
+                <div class="drip drip-3"></div>
+                <div class="drip drip-4"></div>
+                <div class="drip drip-5"></div>
+            </div>
+            <div class="candle">
+                <div class="flame" id="flame"></div>
+            </div>
+        </div>
+        <div class="plate"></div>
+    </div>
+
+    <div class="message-box" id="message">
+        <h2>To My Beautiful Wife,</h2>
+        <p>
+            On this special day, I want to remind you how much you mean to me. 
+            You aren't just the person I share my life with—you are the light that makes every day brighter.
+        </p>
+        <p>
+            Through every laugh, every dream, and every quiet moment, my love for you 
+            grows stronger. Thank you for being your wonderful, amazing self. I love you kuttappi enikk arinjuda enthann,miss you kuttappi kuruthakednn ellam sorry...
+        </p>
+        <p style="font-size: 1.5rem; color: #ff4d6d;">❤️ <strong>I love you forever.</strong> ❤️</p>
+    </div>
+
+    <script>
+        // Generate floating balloons/hearts
+        function createBalloon() {
+            const container = document.getElementById('heart-container');
+            const items = ['🎈', '❤️', '💖', '💕', '✨'];
+            const el = document.createElement('div');
+            el.className = 'balloon';
+            el.innerText = items[Math.floor(Math.random() * items.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            el.style.animationDuration = (Math.random() * 4 + 5) + 's';
+            container.appendChild(el);
+
+            setTimeout(() => el.remove(), 7000);
+        }
+
+        setInterval(createBalloon, 600);
+
+        // Blow out candle interaction
+        function blowCandle() {
+            const flame = document.getElementById('flame');
+            const message = document.getElementById('message');
+            
+            if (!flame.classList.contains('out')) {
+                flame.classList.add('out');
+                message.classList.add('reveal');
+                startPoppers();
+                
+                for(let i=0; i<5; i++) {
+                    setTimeout(startPoppers, i * 300);
+                }
+            }
+        }
+
+        // Confetti Popper Logic
+        function startPoppers() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particles = [];
+            const colors = ['#ff4d6d', '#ffb703', '#4ea8de', '#fff', '#ffccd5'];
+
+            for (let i = 0; i < 60; i++) {
+                particles.push({
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2 + 50,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 10 + 5,
+                    speedY: Math.random() * -20 - 5,
+                    speedX: Math.random() * 20 - 10,
+                    gravity: 0.25
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach((p, i) => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.speedY += p.gravity;
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size/2, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                if (particles[0] && particles[0].y < canvas.height + 100) {
+                    requestAnimationFrame(animate);
+                }
+            }
+            animate();
+        }
+    </script>
+</body>
+</html>
